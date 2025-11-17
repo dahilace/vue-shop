@@ -7,7 +7,9 @@ const productsStore = useProductsStore();
 
 <template>
   <footer>
-    <category-list v-if="productsStore.productsList" />
+    <nav class="footer__nav">
+      <category-list :is-all-exists="false" v-if="productsStore.productsList" />
+    </nav>
   </footer>
 </template>
 

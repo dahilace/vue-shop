@@ -3,6 +3,7 @@ import HomePage from '@/pages/home/index.vue'
 import ShopPage from '@/pages/shop/index.vue'
 import ShopItemPage from '@/pages/shop/[id].vue'
 import BlogPage from '@/pages/blog/index.vue'
+import BlogPost from '@/pages/blog/[id].vue'
 import CartPage from '@/pages/cart/index.vue'
 import FavsPage from '@/pages/favs/index.vue'
 
@@ -28,6 +29,11 @@ const router = createRouter({
       path: '/blog',
       name: 'blog',
       component: BlogPage
+    },
+    {
+      path: '/blog/:id',
+      name: 'blog-post',
+      component: BlogPost
     },
     {
       path: '/shop/cart',

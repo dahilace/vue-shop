@@ -8,17 +8,32 @@ import { onMounted, ref } from 'vue';
 const productsStore = useProductsStore();
 let randomList = ref<any[]>([]);
 
+function clearLocalStorage() {
+  localStorage.clear();
+}
+
 async function init() {
-  await productsStore.loadProducts();
-  randomList.value = await [...productsStore.productsList]
-    .sort((a, b) => Math.random() - Math.random())
-    .slice(0, 5);
+  try {
+    await productsStore.loadProducts();
+    randomList.value = await [...productsStore.productsList]
+      .sort((a, b) => Math.random() - Math.random())
+      .slice(0, 5);
+  } catch {
+    console.error('main page error');
+  }
 }
 init();
 </script>
 
 <template>
-  <p>5 случайных товаров:</p>
+  <button @click="clearLocalStorage">Clear localstorage</button>
+  <div v-if="!productsStore.productsList.length && !productsStore.isLoaded">
+    Идёт загрузка...
+  </div>
+  <div v-else>
+    <p>5 случайных товаров:</p>
+    <button @click="init">refresh</button>
+  </div>
   <product-list :products-list="randomList" />
   <!-- <category-list v-if="productsStore.productsList" /> -->
 </template>

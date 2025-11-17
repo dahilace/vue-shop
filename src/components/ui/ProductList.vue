@@ -26,7 +26,7 @@ const props = defineProps<{
       </router-link>
     </li>
   </ul> -->
-  <ul class="flex flex-wrap justify-between gap-1">
+  <ul class="flex flex-wrap justify-between gap-10">
     <product-card
       v-for="product in productsList"
       :key="product.id"

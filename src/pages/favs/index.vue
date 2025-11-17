@@ -1,12 +1,22 @@
 <script setup lang="ts">
-import ProductCard from '@/components/ui/ProductCard.vue';
-import { userCartStore } from '@/stores/cartStore';
+import FavsCardMini from '@/components/ui/FavsCardMini.vue';
 
-const cartsStore = userCartStore();
+import { useCartStore } from '@/stores/cartStore';
+import { useProductsStore } from '@/stores/productsStore';
+
+const cartStore = useCartStore();
+const productsList = useProductsStore();
 </script>
 
 <template>
-  <product-card v-for="item in cartsStore.favsItems" :data="item" />
+  <div>
+    <div v-if="!cartStore.favsItems.length">Добавьте товары в избранное!</div>
+    <favs-card-mini
+      v-for="(value) in cartStore.favsItems"
+      :key="value"
+      :data="productsList.productsList.find((el) => el.id === +value) ?? null"
+    />
+  </div>
 </template>
 
 <style lang="scss" scoped></style>

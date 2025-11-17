@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import SvgIcon from '../SvgIcon.vue';
-import { userCartStore } from '@/stores/cartStore';
-const cartStore = userCartStore();
+import { useCartStore } from '@/stores/cartStore';
+const cartStore = useCartStore();
 </script>
 
 <template>
   <button
-    @click="cartStore.isCartShown = !cartStore.isCartShown"
     class="cart-button cursor-pointer relative"
-    :data-items="cartStore.favsItems.size"
-    :class="{ empty: !cartStore.favsItems.size }"
+    :data-items="cartStore.favsItems.length"
+    :class="{ empty: !cartStore.favsItems.length }"
   >
     <svg-icon class="w-8 h-8" name="heart" />
   </button>

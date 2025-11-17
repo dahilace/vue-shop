@@ -10,6 +10,10 @@ import './assets/styles/main.css'
 const app = createApp(App)
 
 app.use(createPinia())
+// import { useCartStore } from './stores/cartStore'
+// const cartStore = useCartStore()
+// cartStore.getFromLocalStorage()
+
 app.use(router)
 
 app.mount('#app')

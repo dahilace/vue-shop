@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import SvgIcon from '../SvgIcon.vue';
-import { userCartStore } from '@/stores/cartStore';
-const cartStore = userCartStore();
+import { useCartStore } from '@/stores/cartStore';
+const cartStore = useCartStore();
 </script>
 
 <template>
   <button
-    @click="cartStore.isCartShown = !cartStore.isCartShown"
     class="cart-button cursor-pointer relative"
     :data-items="
       Object.values(cartStore.cartItems).reduce((acc, v) => +acc + +v, 0)

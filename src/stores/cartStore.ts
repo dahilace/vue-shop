@@ -1,30 +1,48 @@
 import { defineStore } from "pinia";
 import type { ShopProduct } from "@/assets/types/types";
 
-export const userCartStore = defineStore('cart', {
+export const useCartStore = defineStore('cart', {
   state: () => ({
     cartItems: {} as Record<number, number>,
+    favsItems: [] as number[],
     // cartItems: [] as ShopProduct[],
-    favsItems: new Set as Set<ShopProduct>,
-    isCartShown: false as boolean,
-    isFavsShown: false as boolean,
   }),
   actions: {
     addToCart(item: ShopProduct) {
       this.cartItems[item.id] = this.cartItems[item.id] ? ++this.cartItems[item.id] : 1
+      localStorage.setItem('vue-store-cart', JSON.stringify(this.cartItems))
     },
     removeFromCart(id: number) {
       --this.cartItems[id]
       if (!this.cartItems[id]) {
         delete this.cartItems[id]
       }
+      localStorage.setItem('vue-store-cart', JSON.stringify(this.cartItems))
     },
     addToFavs(item: ShopProduct) {
-      this.favsItems.add(item)
+      this.favsItems.push(item.id)
+      localStorage.setItem('vue-store-favs', JSON.stringify(this.favsItems))
     },
     removeFromFavs(item: ShopProduct) {
-      this.favsItems.delete(item)
+      this.favsItems.splice(this.favsItems.findIndex(el => el === item.id), 1)
+      localStorage.setItem('vue-store-favs', JSON.stringify(this.favsItems))
     },
+    async getFromLocalStorage() {
+      if (localStorage.getItem('vue-store-cart')) {
+        this.cartItems = JSON.parse(localStorage.getItem('vue-store-cart'))
+      }
+      if (localStorage.getItem('vue-store-favs')) {
+        this.favsItems = JSON.parse(localStorage.getItem('vue-store-favs'))
+      }
+    },
+    // saveToLocalStorage(sign: 'favs' | 'cart') {
+    //   if (sign === 'favs') {
+    //     localStorage.setItem('vue-store-favs', JSON.stringify(this.favsItems))
+    //   }
+    //   if (sign === 'cart') {
+    //     localStorage.setItem('vue-store-cart', JSON.stringify(this.cartItems))
+    //   }
+    // }
     // calcItems(items: ShopProduct[]) {
     //   const counts: Record<number, number> = items.reduce((acc, obj) => {
     //     acc[obj.id] = (acc[obj.id] ?? 0) + 1;

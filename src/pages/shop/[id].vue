@@ -25,7 +25,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <category-list v-if="productsStore.productsList" />
+  <category-list is-all-exists v-if="productsStore.productsList" class="mb-10" />
   <product-list
     :products-list="productsStore.currentList"
     :key="route.fullPath"

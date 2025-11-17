@@ -17,20 +17,19 @@ export const useProductsStore = defineStore('products', {
   // },
   actions: {
     async loadProducts() {
-      // fetch('https://fakestoreapi.com/products')
-      //   .then((response) => response.json())
-      //   .then((data) => (this.productsList = JSON.parse(JSON.stringify(data)))).then(
-      //     () => this.computeParameters()
-      //   )
-
-      if (!this.isLoaded) {
+      if (localStorage.getItem('vue-shop-products')) {
+        this.productsList = JSON.parse(localStorage.getItem('vue-shop-products'))
+      }
+      else {
         const response = await fetch('https://fakestoreapi.com/products')
         const data = await response.json()
-
         this.productsList = JSON.parse(JSON.stringify(data))
-        this.productsList.forEach(el => el.isLiked = false)
+        if (localStorage.getItem('vue-store-favs')) {
+          const favsFromLocalStorage = JSON.parse(localStorage.getItem('vue-store-favs'))
+          this.productsList.forEach(el => favsFromLocalStorage.find((elem: number | string) => +elem === el.id) ? el.isLiked = true : el.isLiked = false)
+        }
         this.computeParameters()
-
+        this.saveToLocalStorage()
         this.isLoaded = true
       }
     },
@@ -41,7 +40,14 @@ export const useProductsStore = defineStore('products', {
       return `/shop/${category.split(/\W/)[0]}`
     },
     changeCurrentList(route: string) {
-      this.currentList = this.productsList.filter(el => route === this.createRoute(el.category))
+      this.currentList = (route === '/shop') ? this.productsList : this.productsList.filter(el => route === this.createRoute(el.category));
+      (this.currentList.length < 10) ? this.currentList : this.currentList.length = 20
+    },
+    uploadCurrentList() {
+      // (this.currentList.length < this.productsList.length) ? this.currentList.length += 10 : this.currentList.length = this.productsList.length
+    },
+    saveToLocalStorage() {
+      localStorage.setItem('vue-shop-products', JSON.stringify(this.productsList))
     }
   }
 })

@@ -9,6 +9,6 @@
 <style lang="scss" scoped>
 .btn {
   border-radius: 4px;
-  background-color: wheat;
+  background-color: var(--accent-color);
 }
 </style>

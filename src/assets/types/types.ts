@@ -17,7 +17,7 @@ export interface ShopProduct {
   isLiked?: boolean
 }
 
-export interface BlogPost {
+export interface Post {
   userId: number
   id: number
   title: string

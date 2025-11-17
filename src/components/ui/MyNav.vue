@@ -17,4 +17,8 @@ defineProps<{
   </nav>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.nav__item {
+  color: var(--accent-color);
+}
+</style>
