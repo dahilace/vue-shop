@@ -19,6 +19,7 @@ export const useProductsStore = defineStore('products', {
     async loadProducts() {
       if (localStorage.getItem('vue-shop-products')) {
         this.productsList = JSON.parse(localStorage.getItem('vue-shop-products'))
+        this.computeParameters()
       }
       else {
         const response = await fetch('https://fakestoreapi.com/products')
@@ -34,7 +35,12 @@ export const useProductsStore = defineStore('products', {
       }
     },
     computeParameters() {
-      this.categories = Array.from(new Set(this.productsList.map((el) => el.category))).sort((a, b) => +!a.match('clothing') - +!b.match('clothing'))
+      if (localStorage.getItem('vue-shop-cats')) {
+        this.categories = JSON.parse(localStorage.getItem('vue-shop-cats'))
+      } else {
+        this.categories = Array.from(new Set(this.productsList.map((el) => el.category))).sort((a, b) => +!a.match('clothing') - +!b.match('clothing'))
+        localStorage.setItem('vue-shop-cats', JSON.stringify(this.categories))
+      }
     },
     createRoute(category: string) {
       return `/shop/${category.split(/\W/)[0]}`
