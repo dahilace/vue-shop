@@ -9,11 +9,12 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/vue-shop/',
   plugins: [
     vue(),
     vueDevTools(),
     createSvgIconsPlugin({
-      iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
+      iconDirs: [path.resolve(process.cwd(), 'src/shared/assets/icons')],
       symbolId: 'icon-[name]',
     }),
   ],
